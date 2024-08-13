@@ -1,10 +1,16 @@
 package com.pawan.rest.services.restful_web_services.model;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class User {
+
     private Integer id;
+    @Size(min = 2,message = "enter your name")
     private  String name;
+    @Past(message = "birth date must be in past.")
     private LocalDate birthDate;
 
     public User(Integer id, String name, LocalDate birthDate) {

@@ -3,6 +3,7 @@ package com.pawan.rest.services.restful_web_services.controller;
 import com.pawan.rest.services.restful_web_services.exceptions.UserNotFoundException;
 import com.pawan.rest.services.restful_web_services.model.User;
 import com.pawan.rest.services.restful_web_services.services.UserDaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +35,14 @@ public class UserController {
         return user;
     }
 
+    @DeleteMapping(path = "/users/{id}")
+    public void deleteUserById(@PathVariable int id){
+        userDaoService.deleteUserById(id);
+    }
+
     //creeate a user with id,name, birthDate
     @PostMapping(path = "/users")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         User savedUser = userDaoService.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}").build(savedUser.getId());
