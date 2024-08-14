@@ -2,6 +2,7 @@ package com.pawan.rest.services.restful_web_services.controller;
 
 import com.pawan.rest.services.restful_web_services.exceptions.UserNotFoundException;
 import com.pawan.rest.services.restful_web_services.model.User;
+import com.pawan.rest.services.restful_web_services.repository.UserRepository;
 import com.pawan.rest.services.restful_web_services.services.UserDaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,42 +14,43 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-public class UserController {
+public class UserJpaController {
 
     @Autowired
-    private UserDaoService userDaoService;
+    private UserRepository userRepository;
 
     //GET /user => retrieve all users
 
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/jpa/users")
     public List<User> getAllUser(){
-      return  userDaoService.findAllUsers();
+      return  userRepository.findAll();
     }
 
     //GET specific user by id
-    @GetMapping(path = "/users/{id}")
+    @GetMapping(path = "/jpa/users/{id}")
     public EntityModel<User> getUserById(@PathVariable int id){
-        User user =  userDaoService.findById(id);
-        if(user == null){
+        Optional<User> user =  userRepository.findById(id);
+        if(user.isEmpty()){
             throw new UserNotFoundException("User not found for id : "+id);
         }
-        EntityModel<User> entityModel = EntityModel.of(user);
+        EntityModel<User> entityModel = EntityModel.of(user.get());
         WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAllUser());
         entityModel.add(linkBuilder.withRel("all-users"));
         return entityModel;
     }
 
-    @DeleteMapping(path = "/users/{id}")
+    @DeleteMapping(path = "/jpa/users/{id}")
     public void deleteUserById(@PathVariable int id){
-        userDaoService.deleteUserById(id);
+        userRepository.deleteById(id);
     }
 
     //creeate a user with id,name, birthDate
-    @PostMapping(path = "/users")
+    @PostMapping(path = "/jpa/users")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        User savedUser = userDaoService.save(user);
+        User savedUser = userRepository.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}").build(savedUser.getId());
         return ResponseEntity.created(location).build();

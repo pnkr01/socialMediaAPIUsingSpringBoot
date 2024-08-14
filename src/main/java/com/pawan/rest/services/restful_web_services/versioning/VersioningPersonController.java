@@ -18,4 +18,19 @@ public class VersioningPersonController {
     public PersonV2 getSecondVersionPerson() {
         return new PersonV2(new Name("Pawan","Kumar"));
     }
+
+    @GetMapping(path = "/person",params = "version=1")
+    public PersonV2 getThirdVersionPerson() {
+        return new PersonV2(new Name("Pawan","Kumar"));
+    }
+
+    @GetMapping(path = "/person",params = "version=2")
+    public PersonV2 getFourthVersionPerson() {
+        return new PersonV2(new Name("Pawan","Kumar"));
+    }
+
+    @GetMapping(path = "/person",headers = "version=1")
+    public PersonV2 getHeaderVersionPerson() {
+        return new PersonV2(new Name("KK","Kumar"));
+    }
 }
