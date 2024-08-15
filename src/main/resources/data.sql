@@ -3,3 +3,8 @@ INSERT INTO user_details(id,name,birth_date) VALUES(1002,'Soni',current_date())
 INSERT INTO user_details(id,name,birth_date) VALUES(1003,'Kajal',current_date())
 INSERT INTO user_details(id,name,birth_date) VALUES(1004,'Pinki',current_date())
 INSERT INTO user_details(id,name,birth_date) VALUES(1005,'Anita',current_date())
+
+INSERT INTO post(id,user_id,description) VALUES(2001,1001,'learn AWS Daily')
+INSERT INTO post(id,user_id,description) VALUES(2002,1001,'learn Flutter Daily')
+INSERT INTO post(id,user_id,description) VALUES(2003,1002,'learn Spring Daily')
+INSERT INTO post(id,user_id,description) VALUES(2004,1002,'learn Azure Daily')
