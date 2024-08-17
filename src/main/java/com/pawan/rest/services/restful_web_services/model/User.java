@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
@@ -19,10 +20,9 @@ public class User {
     @GeneratedValue
     private Integer id;
     @Size(min = 2,message = "enter your name")
-    @JsonProperty("user_name")
+    @NotNull
     private  String name;
     @Past(message = "birth date must be in past.")
-    @JsonProperty("birth_date")
     private LocalDate birthDate;
 
     @OneToMany(mappedBy = "user")

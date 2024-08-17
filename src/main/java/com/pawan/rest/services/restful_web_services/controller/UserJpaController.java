@@ -99,7 +99,4 @@ public class UserJpaController {
 
         return post;
     }
-
-
-
 }
